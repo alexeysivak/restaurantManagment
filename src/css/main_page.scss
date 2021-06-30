@@ -28,30 +28,39 @@
 
 	&:hover,
 	&:focus {
-		-webkit-animation: vibrate 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-		animation: vibrate 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+		-webkit-animation: vibrate 1s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+		animation: vibrate 1s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 		-webkit-perspective: 300px;
 		perspective: 300px;
 	}
 }
 
 @keyframes vibrate {
-	10%,
-	40%,
-	70% {
+	5%,
+	20%,
+	35%,
+	50%,
+	65%,
+	80% {
 		-webkit-transform: rotateZ(-1deg);
 		transform: rotateZ(-1deg);
 	}
 
-	20%,
-	50%,
-	80% {
+	10%,
+	25%,
+	40%,
+	55%,
+	70%,
+	85% {
 		-webkit-transform: rotateZ(1deg);
 		transform: rotateZ(1deg);
 	}
 
+	15%,
 	30%,
+	45%,
 	60%,
+	75%,
 	100% {
 		-webkit-transform: rotateZ(0);
 		transform: rotateZ(0);
