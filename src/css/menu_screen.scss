@@ -1,0 +1,121 @@
+.menu-screen {
+	width: 100%;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: $app-primary-color;
+	color: $app-text-color;
+}
+
+.menu-screen__header {
+	width: 100%;
+	height: 8%;
+	display: flex;
+	padding: 1rem;
+	box-shadow: 0 1px 2px $app-text-color;
+}
+
+.menu-screen__heading {
+	width: 95%;
+	font-size: 2.8rem;
+	padding: 0;
+	margin: 0;
+}
+
+.menu-screen__button {
+	@include menu__button;
+	width: 5%;
+}
+
+.menu-screen__main {
+	width: 100%;
+	height: 92%;
+	max-height: 95%;
+	padding: 2rem 1rem;
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		width: 0.5rem;
+	}
+
+	/* Track */
+	&::-webkit-scrollbar-track {
+		background: $app-primary-color;
+	}
+
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+		background: $app-light-color;
+	}
+}
+
+.menu__category-block {
+	width: 100%;
+	height: fit-content;
+	margin: 0 auto;
+	background-color: $app-light-color;
+	box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+	border-radius: 5px;
+}
+
+.menu__controls-block {
+	width: 100%;
+}
+
+.menu__category-block {
+	cursor: pointer;
+	margin: 1rem 0;
+}
+
+.menu__category-heading {
+	padding: 2rem;
+	font-size: 2.4rem;
+	margin: 0;
+	width: 60%;
+}
+
+.category__dishes {
+	display: none;
+	padding: 0 2rem 2rem;
+}
+
+.visible .category__dishes {
+	display: block;
+}
+
+.category__dish {
+	border-top: 1px solid $app-text-color;
+	display: flex;
+	justify-content: space-between;
+
+	p:nth-child(1) {
+		font-size: 2rem;
+	}
+}
+
+.menu__controls,
+.dish__controls-block {
+	width: 18%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.menu__controls {
+	margin-right: 2rem;
+	width: 40%;
+}
+
+.menu__controls-block {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.category__control-button,
+.dish__control-button {
+	width: 44%;
+	@include menu__button;
+	padding: 1rem 0;
+}

@@ -1,3 +1,4 @@
 import '../css/main.scss';
+import { initMenu } from './controllers/menuController';
 
-console.log('script works');
+initMenu();

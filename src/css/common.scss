@@ -1,5 +1,24 @@
 $app-primary-color: #212121;
-$app-dark-color: #000000;
+$app-primary-color: #000000;
 $app-light-color: #484848;
 $app-text-color: #ffffff;
 
+body .visible {
+	display: block;
+}
+
+@mixin menu__button {
+	font-size: 2rem;
+	background-color: inherit;
+	border: none;
+	outline: none;
+	box-shadow: 0 0 2px $app-text-color;
+	color: $app-text-color;
+	cursor: pointer;
+	border-radius: 5px;
+
+	&:hover,
+	&:focus {
+		box-shadow: 0 0 4px $app-text-color;
+	}
+}
