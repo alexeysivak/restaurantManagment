@@ -21,6 +21,10 @@ class MenuDataManager {
 	getCategories() {
 		return this._menuCategories;
 	}
+
+	addDish(dish) {
+		this._menuData.push(dish);
+	}
 }
 
 const menuDataManager = new MenuDataManager();

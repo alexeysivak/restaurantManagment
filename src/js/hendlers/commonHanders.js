@@ -7,7 +7,7 @@ export function initCloseBtnListener() {
 		const modalContainer = menuCloseButton.closest('#modalContainer');
 
 		if (modalContainer) {
-			closeModal();
+			closeModalPopup();
 			return;
 		}
 
@@ -15,7 +15,7 @@ export function initCloseBtnListener() {
 	});
 }
 
-export function closeModal() {
+export function closeModalPopup() {
 	const modalScreen = document.getElementById('modalContainer');
 
 	removeElement(modalScreen);

@@ -69,7 +69,7 @@
 }
 
 .menu__category-heading {
-	width: 60%;
+	width: 82%;
 	padding: 2rem;
 	margin: 0;
 	font-size: 2.4rem;
@@ -103,7 +103,7 @@
 }
 
 .menu__controls {
-	width: 40%;
+	width: 18%;
 	margin-right: 2rem;
 }
 
@@ -119,4 +119,8 @@
 	padding: 1rem 0;
 
 	@include menu__button;
+}
+
+.category__control-button {
+	width: 100%;
 }

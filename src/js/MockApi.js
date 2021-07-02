@@ -9,7 +9,19 @@ class MockApi {
 		return this.doFetch(url);
 	}
 
-	addDish() {}
+	addDish(dish) {
+		const url = this.BASE_URL;
+		const options = {
+			method: 'POST',
+			body: JSON.stringify(dish),
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		};
+
+		return this.doFetch(url, options);
+	}
 
 	deleteDish() {}
 
@@ -20,6 +32,7 @@ class MockApi {
 			let response;
 			if (options) {
 				response = await fetch(url, options);
+				console.log(url, options);
 			} else {
 				response = await fetch(url);
 			}

@@ -28,17 +28,7 @@ export function removeElement(el) {
 	el.remove();
 }
 
-export function checkErrors(inputErrors) {
-	deleteErrorEls();
-
-	if (Object.getOwnPropertyNames(inputErrors)[0]) {
-		displayErrors(inputErrors);
-
-		return true;
-	}
-}
-
-function displayErrors(inputErrors) {
+export function displayErrors(inputErrors) {
 	deleteErrorEls();
 
 	for (let key in inputErrors) {
@@ -47,7 +37,7 @@ function displayErrors(inputErrors) {
 	}
 }
 
-function deleteErrorEls() {
+export function deleteErrorEls() {
 	const ERROR_EL_SELECTOR = '.error-message';
 
 	const errors = document.querySelectorAll(ERROR_EL_SELECTOR);

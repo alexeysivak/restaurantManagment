@@ -1,15 +1,16 @@
 import menuDataManager from '../dataManagers/MenuDataManager';
 import validation from '../helpers/Validation';
 
-import { showMenuScreen, showAddCategoryModal, renderMenuCategory } from '../views/menuView';
+import { showMenuScreen, showAddDishModal, renderMenuCategory, renderDish } from '../views/menuView';
 
-import { hideElements, showElement, checkErrors } from '../views/commonView';
+import { hideElements, showElement, deleteErrorEls, displayErrors } from '../views/commonView';
 
 import { initModalFormListener } from '../hendlers/menuHandlers';
 
-import { initCloseBtnListener, closeModal } from '../hendlers/commonHanders';
+import { initCloseBtnListener, closeModalPopup } from '../hendlers/commonHanders';
 
-import { CATEGORY_EL_CLASS, ADD_CATEGORY_FORM_ID } from '../helpers/configs';
+import { CATEGORY_EL_CLASS, ADD_DISH_FORM_ID } from '../helpers/configs';
+import mockApi from '../MockApi';
 
 const menuCategoryEl = document.getElementById('menuCategoryEl');
 
@@ -48,34 +49,56 @@ export function activateCollapse(eventTarget) {
 }
 
 export function initCategoryAdding() {
-	showAddCategoryModal();
+	showAddDishModal();
 
 	initCloseBtnListener();
 
-	initModalFormListener(ADD_CATEGORY_FORM_ID);
+	initModalFormListener(ADD_DISH_FORM_ID);
 }
 
-export function onAddCategoryFormSubmit(e) {
+export function onAddDishFormSubmit(e) {
 	e.preventDefault();
 
 	const formData = new FormData(this);
 
-	for (let enrty of formData.entries()) {
-		addCategory(enrty);
+	validation.validate(formData);
+
+	if (!manageErrors(validation.getErrors())) {
+		addDish(formData);
 	}
 }
 
-function addCategory(entry) {
-	const [key, value] = entry;
-	const inputErrors = validation.validate(entry);
+function manageErrors(inputErrors) {
+	deleteErrorEls();
 
-	const errorsPresent = checkErrors(inputErrors);
+	if (Object.getOwnPropertyNames(inputErrors)[0]) {
+		displayErrors(inputErrors);
 
-	if (!errorsPresent) {
-		menuDataManager.setCategory(value);
+		return true;
+	}
+}
 
-		renderMenuCategory(value);
+async function addDish(formData) {
+	let dish = {};
+	for (let [key, value] of formData) {
+		dish[key] = value;
+	}
 
-		closeModal();
+	const newDish = await mockApi.addDish(dish);
+
+	menuDataManager.addDish(newDish);
+
+	checkDishCategory(newDish.type);
+
+	renderDish(newDish);
+
+	closeModalPopup();
+}
+
+function checkDishCategory(category) {
+	const categories = menuDataManager.getCategories();
+	if (!categories.includes(category)) {
+		menuDataManager.setCategory(category);
+		renderMenuCategory(category);
 	}
 }

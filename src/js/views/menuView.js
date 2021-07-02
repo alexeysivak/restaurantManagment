@@ -10,7 +10,7 @@ import {
 	menuScreenTemplate,
 	getMenuCategoryTemplate,
 	getDishTemplate,
-	addCategoryModalTemplate,
+	addDishModalTemplate,
 } from '../helpers/templates';
 
 export async function showMenuScreen() {
@@ -53,7 +53,13 @@ function renderDishes(menuData) {
 	});
 }
 
-export function showAddCategoryModal() {
+export function renderDish(dish) {
+	const categoryEl = document.querySelector(`[data-id=${dish.type}]`);
+
+	renderElement(getDishTemplate(dish), categoryEl);
+}
+
+export function showAddDishModal() {
 	const modalScreen = document.getElementById('modalScreen');
-	modalScreen.insertAdjacentHTML('afterbegin', addCategoryModalTemplate);
+	modalScreen.insertAdjacentHTML('afterbegin', addDishModalTemplate);
 }
