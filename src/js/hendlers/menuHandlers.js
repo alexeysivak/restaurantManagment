@@ -1,13 +1,23 @@
-import { hideElements, showElement, hideElement } from '../views/commonView';
+import { hideElement } from '../views/commonView';
+
+import { initCategoryAdding, activateCollapse, onAddCategoryFormSubmit } from '../controllers/menuController';
+
+import { initCloseBtnListener } from './commonHanders';
 
 import eventTargetDefiner from '../helpers/eventTargetDefiner';
 
-const CATEGORY_EL_CLASS = '.menu__category-block';
+import { CATEGORY_EL_CLASS, ADD_CATEGORY_FORM_ID } from '../helpers/configs';
 
 export function initMenuListener() {
 	const menuContainer = document.getElementById('menuContainer');
 
 	menuContainer.addEventListener('click', listenMenuContainer);
+
+	const addCategoruBtn = document.getElementById('addCategoruBtn');
+
+	addCategoruBtn.addEventListener('click', initCategoryAdding);
+
+	initCloseBtnListener();
 }
 
 function listenMenuContainer(e) {
@@ -27,9 +37,10 @@ function listenMenuContainer(e) {
 	}
 }
 
-function activateCollapse(eventTarget) {
-	hideElements(CATEGORY_EL_CLASS);
-
-	const categoryEl = eventTarget.closest(CATEGORY_EL_CLASS);
-	showElement(categoryEl);
+export function initModalFormListener(formElId) {
+	switch (true) {
+		case formElId === ADD_CATEGORY_FORM_ID:
+			const formEL = document.getElementById(ADD_CATEGORY_FORM_ID);
+			formEL.addEventListener('submit', onAddCategoryFormSubmit);
+	}
 }

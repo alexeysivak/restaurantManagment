@@ -1,44 +1,44 @@
 import menuDataManager from '../dataManagers/MenuDataManager';
 
-import { renderScreenModal, renderEl } from './commonView';
+import { prepareMenuData } from '../controllers/menuController';
+
+import { renderScreenModal, renderElement } from './commonView';
 
 import { initMenuListener } from '../hendlers/menuHandlers';
-import { initCloseBtnListener } from '../hendlers/commonHanders';
 
-import { menuScreenTemplate, getMenuCategoryTemplate, getDishTemplate } from '../helpers/templates';
+import {
+	menuScreenTemplate,
+	getMenuCategoryTemplate,
+	getDishTemplate,
+	addCategoryModalTemplate,
+} from '../helpers/templates';
 
-export function showMenuScreen() {
+export async function showMenuScreen() {
 	renderScreenModal(menuScreenTemplate);
 
-	renderMenuData();
+	const menuData = await prepareMenuData();
+
+	renderMenuData(menuData);
 
 	initMenuListener();
-
-	initCloseBtnListener();
 }
 
-async function renderMenuData() {
-	await menuDataManager.getMenuData();
-
-	const menuData = menuDataManager.returnMenuData();
-
+function renderMenuData(menuData) {
 	renderMenuCategories(menuData);
 
 	renderDishes(menuData);
 }
 
-function renderMenuCategories(menuData) {
-	const menuCategories = [];
+function renderMenuCategories() {
+	const menuCategories = menuDataManager.getCategories();
 
-	menuData.forEach((item) => {
-		if (!menuCategories.includes(item.type)) {
-			menuCategories.push(item.type);
-		}
-	});
+	menuCategories.forEach((categoryName) => renderMenuCategory(categoryName));
+}
 
+export function renderMenuCategory(categoryName) {
 	const menuContainer = document.getElementById('menuContainer');
 
-	menuCategories.forEach((categoryName) => renderEl(getMenuCategoryTemplate(categoryName), menuContainer));
+	renderElement(getMenuCategoryTemplate(categoryName), menuContainer);
 }
 
 function renderDishes(menuData) {
@@ -49,6 +49,11 @@ function renderDishes(menuData) {
 			categoryEl = document.querySelector(`[data-id=${dish.type}]`);
 		}
 
-		renderEl(getDishTemplate(dish), categoryEl);
+		renderElement(getDishTemplate(dish), categoryEl);
 	});
+}
+
+export function showAddCategoryModal() {
+	const modalScreen = document.getElementById('modalScreen');
+	modalScreen.insertAdjacentHTML('afterbegin', addCategoryModalTemplate);
 }

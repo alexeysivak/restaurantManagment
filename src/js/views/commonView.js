@@ -20,10 +20,39 @@ export function renderScreenModal(template) {
 	document.body.insertAdjacentHTML('beforeend', template);
 }
 
-export function renderEl(template, elToInsertIn) {
+export function renderElement(template, elToInsertIn) {
 	elToInsertIn.insertAdjacentHTML('beforeend', template);
 }
 
-export function removeEl(el) {
+export function removeElement(el) {
 	el.remove();
+}
+
+export function checkErrors(inputErrors) {
+	deleteErrorEls();
+
+	if (Object.getOwnPropertyNames(inputErrors)[0]) {
+		displayErrors(inputErrors);
+
+		return true;
+	}
+}
+
+function displayErrors(inputErrors) {
+	deleteErrorEls();
+
+	for (let key in inputErrors) {
+		const elWithError = document.querySelector(`[name="${key}"]`);
+		elWithError.insertAdjacentHTML('afterend', inputErrors[key]);
+	}
+}
+
+function deleteErrorEls() {
+	const ERROR_EL_SELECTOR = '.error-message';
+
+	const errors = document.querySelectorAll(ERROR_EL_SELECTOR);
+
+	if (errors[0]) {
+		Array.from(errors).forEach((el) => el.remove());
+	}
 }

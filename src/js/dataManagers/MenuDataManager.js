@@ -3,6 +3,7 @@ import mockApi from '../MockApi';
 class MenuDataManager {
 	constructor() {
 		this._menuData = [];
+		this._menuCategories = [];
 	}
 
 	async getMenuData() {
@@ -11,6 +12,14 @@ class MenuDataManager {
 
 	returnMenuData() {
 		return this._menuData;
+	}
+
+	setCategory(cateory) {
+		this._menuCategories.push(cateory);
+	}
+
+	getCategories() {
+		return this._menuCategories;
 	}
 }
 

@@ -1,7 +1,22 @@
-import { removeEl } from '../views/commonView';
+import { removeElement } from '../views/commonView';
 
 export function initCloseBtnListener() {
-	const closeButton = document.getElementById('closeButton');
+	const menuCloseButton = document.getElementById('closeButton');
 
-	closeButton.addEventListener('click', () => removeEl(closeButton.closest('#modalScreen')));
+	menuCloseButton.addEventListener('click', () => {
+		const modalContainer = menuCloseButton.closest('#modalContainer');
+
+		if (modalContainer) {
+			closeModal();
+			return;
+		}
+
+		removeElement(menuCloseButton.closest('#modalScreen'));
+	});
+}
+
+export function closeModal() {
+	const modalScreen = document.getElementById('modalContainer');
+
+	removeElement(modalScreen);
 }
