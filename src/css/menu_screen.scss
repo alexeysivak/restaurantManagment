@@ -6,45 +6,45 @@
 	left: 0;
 	background-color: $app-primary-color;
 	color: $app-text-color;
+	z-index: 1;
 }
 
 .menu-screen__header {
 	width: 100%;
 	height: 8%;
-	display: flex;
+	min-height: 6rem;
 	padding: 1rem;
+	margin-bottom: 0.3rem;
 	box-shadow: 0 1px 2px $app-text-color;
-}
 
-.menu-screen__heading {
-	width: 95%;
-	font-size: 2.8rem;
-	padding: 0;
-	margin: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .menu-screen__button {
+	height: 100%;
+	padding: 1rem 2rem;
+
 	@include menu__button;
-	width: 5%;
+}
+
+.menu__close-button {
+	@include close-button;
 }
 
 .menu-screen__main {
 	width: 100%;
-	height: 92%;
-	max-height: 95%;
+	max-height: 92%;
 	padding: 2rem 1rem;
 	overflow-y: scroll;
 
 	&::-webkit-scrollbar {
 		width: 0.5rem;
 	}
-
-	/* Track */
 	&::-webkit-scrollbar-track {
 		background: $app-primary-color;
 	}
-
-	/* Handle */
 	&::-webkit-scrollbar-thumb {
 		background: $app-light-color;
 	}
@@ -54,9 +54,9 @@
 	width: 100%;
 	height: fit-content;
 	margin: 0 auto;
-	background-color: $app-light-color;
 	box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 	border-radius: 5px;
+	background-color: $app-light-color;
 }
 
 .menu__controls-block {
@@ -64,15 +64,15 @@
 }
 
 .menu__category-block {
-	cursor: pointer;
 	margin: 1rem 0;
+	cursor: pointer;
 }
 
 .menu__category-heading {
-	padding: 2rem;
-	font-size: 2.4rem;
-	margin: 0;
 	width: 60%;
+	padding: 2rem;
+	margin: 0;
+	font-size: 2.4rem;
 }
 
 .category__dishes {
@@ -103,8 +103,8 @@
 }
 
 .menu__controls {
-	margin-right: 2rem;
 	width: 40%;
+	margin-right: 2rem;
 }
 
 .menu__controls-block {
@@ -116,6 +116,7 @@
 .category__control-button,
 .dish__control-button {
 	width: 44%;
-	@include menu__button;
 	padding: 1rem 0;
+
+	@include menu__button;
 }

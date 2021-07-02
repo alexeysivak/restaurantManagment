@@ -1,0 +1,45 @@
+.modal__container {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba($color: #000000, $alpha: 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal__form-container {
+	width: 30%;
+	min-height: fit-content;
+	padding: 2rem;
+	box-shadow: 0 0 3px $app-text-color;
+	border-radius: 5px;
+	background-color: #212121;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.modal__form {
+	width: 100%;
+}
+
+.modal__form-input {
+	width: 100%;
+	padding: 1rem;
+	margin-top: 2rem;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	font-size: 1.6rem;
+}
+
+.modal__submit-button {
+	width: 100%;
+	padding: 1rem;
+	margin-top: 2rem;
+
+	@include menu__button;
+}

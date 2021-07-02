@@ -22,3 +22,16 @@ body .visible {
 		box-shadow: 0 0 4px $app-text-color;
 	}
 }
+
+@mixin close-button {
+	@include menu__button;
+
+	padding: 1rem 2rem;
+}
+
+.modal__close-button {
+	@include close-button;
+
+	padding: 0.5rem 1rem;
+	box-shadow: none;
+}
