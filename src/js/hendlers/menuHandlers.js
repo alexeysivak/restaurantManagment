@@ -1,12 +1,17 @@
 import { hideElement } from '../views/commonView';
 
-import { initCategoryAdding, activateCollapse, onAddDishFormSubmit } from '../controllers/menuController';
+import {
+	initCategoryAdding,
+	activateCollapse,
+	onAddDishFormSubmit,
+	onDeleteCategoryBtnClick,
+} from '../controllers/menuController';
 
 import { initCloseBtnListener } from './commonHanders';
 
 import eventTargetDefiner from '../helpers/eventTargetDefiner';
 
-import { CATEGORY_EL_CLASS, ADD_DISH_FORM_ID } from '../helpers/configs';
+import { CATEGORY_EL_SELECTOR, ADD_DISH_FORM_ID } from '../helpers/configs';
 
 export function initMenuListener() {
 	const menuContainer = document.getElementById('menuContainer');
@@ -25,12 +30,15 @@ function listenMenuContainer(e) {
 
 	switch (true) {
 		case eventTargetDefiner.isActiveCategoryEl(
-			target.closest(CATEGORY_EL_CLASS) ? target.closest(CATEGORY_EL_CLASS) : target,
+			target.closest(CATEGORY_EL_SELECTOR) ? target.closest(CATEGORY_EL_SELECTOR) : target,
 		):
-			hideElement(target.closest(CATEGORY_EL_CLASS));
+			hideElement(target.closest(CATEGORY_EL_SELECTOR));
 			break;
 		case eventTargetDefiner.isCategoryHeadingEl(target):
 			activateCollapse(target);
+			break;
+		case eventTargetDefiner.isDeleteCategoryBtnEl(target):
+			onDeleteCategoryBtnClick(target);
 			break;
 		default:
 			return;

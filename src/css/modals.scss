@@ -22,6 +22,11 @@
 	justify-content: flex-end;
 }
 
+.modal__heading {
+	width: 100%;
+	text-align: center;
+}
+
 .modal__form {
 	width: 100%;
 }
@@ -40,6 +45,15 @@
 	width: 100%;
 	padding: 1rem;
 	margin-top: 2rem;
+
+	@include menu__button;
+}
+
+.modal__cencel-button,
+.modal__delete-button {
+	width: 46%;
+	padding: 1rem;
+	margin: 2%;
 
 	@include menu__button;
 }

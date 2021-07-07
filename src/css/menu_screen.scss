@@ -94,7 +94,6 @@
 	}
 }
 
-.menu__controls,
 .dish__controls-block {
 	width: 18%;
 	display: flex;
@@ -102,9 +101,12 @@
 	align-items: center;
 }
 
-.menu__controls {
+.category__control-button {
 	width: 18%;
 	margin-right: 2rem;
+	padding: 1rem 0;
+
+	@include menu__button;
 }
 
 .menu__controls-block {
@@ -113,14 +115,9 @@
 	align-items: center;
 }
 
-.category__control-button,
 .dish__control-button {
 	width: 44%;
 	padding: 1rem 0;
 
 	@include menu__button;
-}
-
-.category__control-button {
-	width: 100%;
 }

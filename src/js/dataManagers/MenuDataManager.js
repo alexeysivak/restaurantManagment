@@ -25,6 +25,16 @@ class MenuDataManager {
 	addDish(dish) {
 		this._menuData.push(dish);
 	}
+
+	getCategoryDishes(categoryToDeleteType) {
+		return this._menuData.filter((dish) => dish.type == categoryToDeleteType);
+	}
+
+	deleteCategory(categoryToDeleteType) {
+		this._menuData = this._menuData.filter((dish) => dish.type !== categoryToDeleteType);
+
+		this._menuCategories = this._menuCategories.filter((type) => type !== categoryToDeleteType);
+	}
 }
 
 const menuDataManager = new MenuDataManager();

@@ -10,7 +10,7 @@ import {
 	menuScreenTemplate,
 	getMenuCategoryTemplate,
 	getDishTemplate,
-	addDishModalTemplate,
+	addDishModalTemplate, 
 } from '../helpers/templates';
 
 export async function showMenuScreen() {
@@ -63,3 +63,4 @@ export function showAddDishModal() {
 	const modalScreen = document.getElementById('modalScreen');
 	modalScreen.insertAdjacentHTML('afterbegin', addDishModalTemplate);
 }
+

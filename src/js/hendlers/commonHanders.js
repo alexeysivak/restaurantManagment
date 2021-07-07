@@ -1,4 +1,4 @@
-import { removeElement } from '../views/commonView';
+import { removeElement, closeModalPopup } from '../views/commonView';
 
 export function initCloseBtnListener() {
 	const menuCloseButton = document.getElementById('closeButton');
@@ -15,8 +15,3 @@ export function initCloseBtnListener() {
 	});
 }
 
-export function closeModalPopup() {
-	const modalScreen = document.getElementById('modalContainer');
-
-	removeElement(modalScreen);
-}

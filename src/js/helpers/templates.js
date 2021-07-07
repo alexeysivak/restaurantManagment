@@ -17,8 +17,7 @@ export function getMenuCategoryTemplate(categoryName) {
 	<div class="menu__category-block"> 
 		<div class="menu__controls-block">
 			<h2 class="menu__category-heading">${categoryName}</h2>
-			<div class="menu__controls">
-			<button class="category__control-button">Delete</button></div> 
+			<button class="category__control-button delete-button">Delete</button> 
 		</div>
 		<div class="category__dishes" data-id="${categoryName}"></div>
 	</div>`;
@@ -54,6 +53,16 @@ export const addDishModalTemplate = `
 				<button type="submit" class="modal__submit-button" id="addButton">Add dish</button>
 			</form>
 			
+		</div> 
+	</div>
+`;
+
+export const confirmationModalTemplate = `
+	<div class="modal__container"  id="modalContainer">
+		<div class="modal__form-container" id="confirmationModal">
+			<h2 class="modal__heading">Are you sure?</h2>
+			<button type="button" class="modal__cencel-button">Cencel</button>
+			<button type="button" class="modal__delete-button">Delete</button>
 		</div> 
 	</div>
 `;

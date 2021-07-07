@@ -1,3 +1,5 @@
+import { confirmationModalTemplate } from '../helpers/templates';
+
 const ACTIVE_EL_CLASS = 'visible';
 
 export function hideElements(elsClass) {
@@ -45,4 +47,15 @@ export function deleteErrorEls() {
 	if (errors[0]) {
 		Array.from(errors).forEach((el) => el.remove());
 	}
+}
+
+export function showConfirmationModal() {
+	const modalScreen = document.getElementById('modalScreen');
+	modalScreen.insertAdjacentHTML('afterbegin', confirmationModalTemplate);
+}
+
+export function closeModalPopup() {
+	const modalScreen = document.getElementById('modalContainer');
+
+	removeElement(modalScreen);
 }

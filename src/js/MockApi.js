@@ -23,7 +23,15 @@ class MockApi {
 		return this.doFetch(url, options);
 	}
 
-	deleteDish() {}
+	deleteDish(id) {
+		const url = `${this.BASE_URL}/${id}`;
+
+		const options = {
+			method: 'DELETE',
+		};
+
+		this.doFetch(url, options);
+	}
 
 	changeDish() {}
 
