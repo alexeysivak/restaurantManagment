@@ -1,7 +1,14 @@
 import menuDataManager from '../dataManagers/MenuDataManager';
 import validation from '../helpers/Validation';
 import eventTargetDefiner from '../helpers/eventTargetDefiner';
-import { showMenuScreen, showAddDishModal, renderMenuCategory, renderDish } from '../views/menuView';
+import {
+	showMenuScreen,
+	renderMenuCategories,
+	showAddDishModal,
+	renderMenuCategory,
+	renderCategoryDishes,
+	renderDish,
+} from '../views/menuView';
 
 import {
 	hideElements,
@@ -13,7 +20,7 @@ import {
 	closeModalPopup,
 } from '../views/commonView';
 
-import { initModalFormListener } from '../hendlers/menuHandlers';
+import { initMenuListener, initModalFormListener } from '../hendlers/menuHandlers';
 
 import { initCloseBtnListener } from '../hendlers/commonHanders';
 
@@ -23,30 +30,27 @@ import mockApi from '../MockApi';
 const menuCategoryEl = document.getElementById('menuCategoryEl');
 
 export function initMenu() {
-	menuCategoryEl.addEventListener('click', showMenuScreen);
+	menuCategoryEl.addEventListener('click', onMenuCategoryElClick);
 }
 
-export async function prepareMenuData() {
-	let menuData = menuDataManager.returnMenuData();
+async function onMenuCategoryElClick() {
+	showMenuScreen();
 
-	if (!menuData[0]) {
-		await menuDataManager.getMenuData();
-		menuData = menuDataManager.returnMenuData();
+	const categoryData = await prepareCategoryData();
+
+	renderMenuCategories(categoryData);
+	initMenuListener();
+}
+
+export async function prepareCategoryData() {
+	let categoryData = menuDataManager.returnMenuCategories();
+
+	if (!categoryData[0]) {
+		await menuDataManager.setMenuCategories();
+		categoryData = menuDataManager.returnMenuCategories();
 	}
 
-	setMenuCategories(menuData);
-
-	return menuData;
-}
-
-function setMenuCategories(menuData) {
-	menuData.forEach((item) => {
-		const menuCategories = menuDataManager.getCategories();
-
-		if (!menuCategories.includes(item.type)) {
-			menuDataManager.setCategory(item.type);
-		}
-	});
+	return categoryData;
 }
 
 export function activateCollapse(eventTarget) {
@@ -54,6 +58,27 @@ export function activateCollapse(eventTarget) {
 
 	const categoryEl = eventTarget.closest(CATEGORY_EL_SELECTOR);
 	showElement(categoryEl);
+}
+
+export async function showCategoryDishes(categoryId) {
+	const categoryDishes = await prepareCategoryDishesData(categoryId);
+
+	const categoryEl = document.querySelector(`[data-id="${categoryId}"] .category__dishes`);
+
+	if (!categoryEl.children[0]) {
+		renderCategoryDishes(categoryDishes, categoryId);
+	}
+}
+
+async function prepareCategoryDishesData(categoryId) {
+	let menu = menuDataManager.returnLoadedMenuData();
+
+	if (!menu[categoryId]) {
+		await menuDataManager.getMenuCategoryDishes(categoryId);
+		menu = menuDataManager.returnLoadedMenuData();
+	}
+
+	return menu[categoryId];
 }
 
 export function initCategoryAdding() {
@@ -92,23 +117,57 @@ async function addDish(formData) {
 		dish[key] = value;
 	}
 
-	const newDish = await mockApi.addDish(dish);
+	let neededCategory = {};
+	if (checkCategory(dish.type)) {
+		neededCategory = await getDishCategory(dish.type);
+		renderMenuCategory(neededCategory);
+	} else {
+		neededCategory = await getDishCategory(dish.type);
+	}
 
-	menuDataManager.addDish(newDish);
+	const newDish = await mockApi.addDish(dish, neededCategory.id);
 
-	checkDishCategory(newDish.type);
+	menuDataManager.addMenuDish(newDish, neededCategory.id);
 
-	renderDish(newDish);
+	renderDish(newDish, neededCategory.id);
 
 	closeModalPopup();
 }
 
-function checkDishCategory(category) {
-	const categories = menuDataManager.getCategories();
-	if (!categories.includes(category)) {
-		menuDataManager.setCategory(category);
-		renderMenuCategory(category);
+async function getDishCategory(categoryName) {
+	let neededCategory = filterCategories(categoryName);
+
+	if (!neededCategory[0]) {
+		neededCategory.push(await addCategory(categoryName));
 	}
+
+	return neededCategory[0];
+}
+
+function checkCategory(categoryName) {
+	const neededCategory = filterCategories(categoryName);
+
+	if (neededCategory[0]) {
+		return false;
+	}
+
+	return true;
+}
+
+function filterCategories(categoryName) {
+	const categories = menuDataManager.returnMenuCategories();
+
+	let neededCategory = categories.filter((category) => category.name === categoryName);
+
+	return neededCategory;
+}
+
+async function addCategory(categoryName) {
+	const newCategory = await mockApi.addCategoryData(categoryName);
+
+	menuDataManager.setMenuCategory(newCategory);
+
+	return newCategory;
 }
 
 export function onDeleteCategoryBtnClick(categoryToDelete) {
@@ -121,7 +180,6 @@ export function onDeleteCategoryBtnClick(categoryToDelete) {
 			deleteCategory(categoryToDelete);
 			closeModalPopup();
 		}
-
 		if (eventTargetDefiner.isConfirmCencelBtnEl(e.target)) {
 			closeModalPopup();
 		}
@@ -129,18 +187,7 @@ export function onDeleteCategoryBtnClick(categoryToDelete) {
 }
 
 function deleteCategory(categoryToDelete) {
-	const categoryElToDelete = categoryToDelete.closest(CATEGORY_EL_SELECTOR);
-	const categoryToDeleteType = categoryToDelete.parentElement.nextElementSibling.dataset.id;
+	removeElement(categoryToDelete);
 
-	removeElement(categoryElToDelete);
-
-	deleteCategoryData(categoryToDeleteType);
-}
-
-function deleteCategoryData(categoryToDeleteType) {
-	const dishesToDelete = menuDataManager.getCategoryDishes(categoryToDeleteType);
-
-	dishesToDelete.forEach((dish) => mockApi.deleteDish(dish.id));
-
-	menuDataManager.deleteCategory(categoryToDeleteType);
+	menuDataManager.deleteMenuCategory(categoryToDelete.dataset.id);
 }

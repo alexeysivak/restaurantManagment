@@ -3,6 +3,7 @@ import { hideElement } from '../views/commonView';
 import {
 	initCategoryAdding,
 	activateCollapse,
+	showCategoryDishes,
 	onAddDishFormSubmit,
 	onDeleteCategoryBtnClick,
 } from '../controllers/menuController';
@@ -35,10 +36,15 @@ function listenMenuContainer(e) {
 			hideElement(target.closest(CATEGORY_EL_SELECTOR));
 			break;
 		case eventTargetDefiner.isCategoryHeadingEl(target):
+			const categoryEl = target.closest(CATEGORY_EL_SELECTOR);
+
+			const categoryId = categoryEl.dataset.id;
+			showCategoryDishes(categoryId);
+
 			activateCollapse(target);
 			break;
 		case eventTargetDefiner.isDeleteCategoryBtnEl(target):
-			onDeleteCategoryBtnClick(target);
+			onDeleteCategoryBtnClick(target.closest(CATEGORY_EL_SELECTOR));
 			break;
 		default:
 			return;

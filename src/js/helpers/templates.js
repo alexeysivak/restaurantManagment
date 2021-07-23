@@ -12,14 +12,14 @@ export const menuScreenTemplate = `
 			</main>
 		</section>`;
 
-export function getMenuCategoryTemplate(categoryName) {
+export function getMenuCategoryTemplate({ name, id }) {
 	return `
-	<div class="menu__category-block"> 
+	<div class="menu__category-block" data-id="${id}"> 
 		<div class="menu__controls-block">
-			<h2 class="menu__category-heading">${categoryName}</h2>
+			<h2 class="menu__category-heading">${name}</h2>
 			<button class="category__control-button delete-button">Delete</button> 
 		</div>
-		<div class="category__dishes" data-id="${categoryName}"></div>
+		<div class="category__dishes"></div>
 	</div>`;
 }
 

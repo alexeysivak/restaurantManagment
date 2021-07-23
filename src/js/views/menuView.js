@@ -1,66 +1,39 @@
-import menuDataManager from '../dataManagers/MenuDataManager';
-
-import { prepareMenuData } from '../controllers/menuController';
-
 import { renderScreenModal, renderElement } from './commonView';
-
-import { initMenuListener } from '../hendlers/menuHandlers';
 
 import {
 	menuScreenTemplate,
 	getMenuCategoryTemplate,
 	getDishTemplate,
-	addDishModalTemplate, 
+	addDishModalTemplate,
 } from '../helpers/templates';
 
 export async function showMenuScreen() {
 	renderScreenModal(menuScreenTemplate);
-
-	const menuData = await prepareMenuData();
-
-	renderMenuData(menuData);
-
-	initMenuListener();
 }
 
-function renderMenuData(menuData) {
-	renderMenuCategories(menuData);
-
-	renderDishes(menuData);
+export function renderMenuCategories(categoryData) {
+	categoryData.forEach((category) => renderMenuCategory(category));
 }
 
-function renderMenuCategories() {
-	const menuCategories = menuDataManager.getCategories();
-
-	menuCategories.forEach((categoryName) => renderMenuCategory(categoryName));
-}
-
-export function renderMenuCategory(categoryName) {
+export function renderMenuCategory(category) {
 	const menuContainer = document.getElementById('menuContainer');
 
-	renderElement(getMenuCategoryTemplate(categoryName), menuContainer);
+	renderElement(getMenuCategoryTemplate(category), menuContainer);
 }
 
-function renderDishes(menuData) {
-	let categoryEl = null;
+export function renderCategoryDishes(categoryDishes, categoryId) {
+	const categoryEl = document.querySelector(`[data-id="${categoryId}"] .category__dishes`);
 
-	menuData.forEach((dish) => {
-		if (!categoryEl || categoryEl.dataset.id !== dish.type) {
-			categoryEl = document.querySelector(`[data-id=${dish.type}]`);
-		}
-
-		renderElement(getDishTemplate(dish), categoryEl);
-	});
+	categoryDishes.forEach((dish) => renderElement(getDishTemplate(dish), categoryEl));
 }
 
-export function renderDish(dish) {
-	const categoryEl = document.querySelector(`[data-id=${dish.type}]`);
+export function renderDish(newDish, categoryId) {
+	const categoryEl = document.querySelector(`[data-id="${categoryId}"] .category__dishes`);
 
-	renderElement(getDishTemplate(dish), categoryEl);
+	renderElement(getDishTemplate(newDish), categoryEl);
 }
 
 export function showAddDishModal() {
 	const modalScreen = document.getElementById('modalScreen');
 	modalScreen.insertAdjacentHTML('afterbegin', addDishModalTemplate);
 }
-

@@ -14,13 +14,13 @@ class Validation {
 			return;
 		}
 
-		const menuData = menuDataManager.returnMenuData();
+		// const menuData = menuDataManager.returnLoadedMenuData();
 
-		menuData.forEach((dish) => {
-			if (dish.name.toUpperCase() === value.toUpperCase()) {
-				this._errors[key] = nameIsNotUnique;
-			}
-		});
+		// menuData.forEach((dish) => {
+		// 	if (dish.name.toUpperCase() === value.toUpperCase()) {
+		// 		this._errors[key] = nameIsNotUnique;
+		// 	}
+		// });
 	}
 
 	price(filledInput) {

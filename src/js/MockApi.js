@@ -1,16 +1,47 @@
 class MockApi {
 	constructor() {
-		this.BASE_URL = 'https://60d6032d943aa60017768d88.mockapi.io/menu';
+		this.BASE_URL = 'https://60d6032d943aa60017768d88.mockapi.io';
 	}
 
-	getMenu() {
-		const url = this.BASE_URL;
+	// categories
+	getCategoriesData() {
+		const url = `${this.BASE_URL}/categories`;
 
 		return this.doFetch(url);
 	}
 
-	addDish(dish) {
-		const url = this.BASE_URL;
+	getCategoryDishesData(categoryId) {
+		const url = `${this.BASE_URL}/categories/${categoryId}/menu`;
+
+		return this.doFetch(url);
+	}
+
+	addCategoryData(categoryName) {
+		const url = `${this.BASE_URL}/categories`;
+		const options = {
+			method: 'POST',
+			body: JSON.stringify({ name: categoryName }),
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		};
+
+		return this.doFetch(url, options);
+	}
+
+	deleteCategoryData(categoryId) {
+		const url = `${this.BASE_URL}/categories/${categoryId}`;
+		const options = {
+			method: 'DELETE',
+		};
+
+		this.doFetch(url, options);
+	}
+
+	// dishes
+	addDish(dish, categoryId) {
+		const url = `${this.BASE_URL}/categories/${categoryId}/menu`;
 		const options = {
 			method: 'POST',
 			body: JSON.stringify(dish),
@@ -22,18 +53,6 @@ class MockApi {
 
 		return this.doFetch(url, options);
 	}
-
-	deleteDish(id) {
-		const url = `${this.BASE_URL}/${id}`;
-
-		const options = {
-			method: 'DELETE',
-		};
-
-		this.doFetch(url, options);
-	}
-
-	changeDish() {}
 
 	async doFetch(url, options) {
 		try {

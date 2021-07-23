@@ -2,38 +2,43 @@ import mockApi from '../MockApi';
 
 class MenuDataManager {
 	constructor() {
-		this._menuData = [];
+		this._menuData = {};
 		this._menuCategories = [];
 	}
 
-	async getMenuData() {
-		this._menuData = await mockApi.getMenu();
+	// categories
+	async setMenuCategories() {
+		this._menuCategories = await mockApi.getCategoriesData();
 	}
 
-	returnMenuData() {
-		return this._menuData;
+	setMenuCategory(category) {
+		this._menuCategories.push(category);
+		this._menuData[category.id] = [];
 	}
 
-	setCategory(cateory) {
-		this._menuCategories.push(cateory);
+	deleteMenuCategory(categoryToDeleteId) {
+		this._menuCategories = this._menuCategories.filter((category) => category.id !== categoryToDeleteId);
+
+		mockApi.deleteCategoryData(categoryToDeleteId);
 	}
 
-	getCategories() {
+	returnMenuCategories() {
 		return this._menuCategories;
 	}
 
-	addDish(dish) {
-		this._menuData.push(dish);
+	// dishes
+	async getMenuCategoryDishes(categoryId) {
+		this._menuData[categoryId] = await mockApi.getCategoryDishesData(categoryId);
 	}
 
-	getCategoryDishes(categoryToDeleteType) {
-		return this._menuData.filter((dish) => dish.type == categoryToDeleteType);
+	addMenuDish(dish, categoryId) {
+		console.log(this._menuData);
+		this._menuData[categoryId] = dish;
+		console.log(this._menuData);
 	}
 
-	deleteCategory(categoryToDeleteType) {
-		this._menuData = this._menuData.filter((dish) => dish.type !== categoryToDeleteType);
-
-		this._menuCategories = this._menuCategories.filter((type) => type !== categoryToDeleteType);
+	returnLoadedMenuData() {
+		return this._menuData;
 	}
 }
 
